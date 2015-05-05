@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour {
 
 		player = new Player (Instantiate (playerPrefab, spawningPosition, Quaternion.identity) as GameObject);
 
-		Camera.main.GetComponent<CameraBehaviour> ().player = player.transform;
+		Camera.main.GetComponent<CameraBehaviour> ().player = player.transformation;
 
 	}
 
@@ -64,11 +64,17 @@ public class GameManager : MonoBehaviour {
 			}
 		}*/
 
-		if (player.transform.position.y <= prevY) {
-			State = GameState.DONE;
-			EventsSystem.sendGameStateChanged(State);
+		if (player.transformation.position.y <= prevY) {
+			EventsSystem.sendGameStateChanged(GameState.DONE);
 		}
 
+		if (player != null) {
+			player.OnUpdate ();	// Llamo al update del player!
+			if(player.applyBlink){	// Checkeo si tengo que hacer animaciones graficas para blinkeo.
+				player.applyBlink = false;
+				StartCoroutine(player.Blink());
+			}
+		}
 	}
 
 	public void checkPlayerPosition(Vector3 playerPos){
@@ -123,7 +129,9 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void OnGameChanged(GameState state){
-		Time.timeScale = 0;
+		State = state;
+		if(State == GameState.DONE)
+			Time.timeScale = 0;
 	}
 
 	public Player Player{

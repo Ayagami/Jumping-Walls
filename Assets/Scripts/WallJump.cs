@@ -39,7 +39,7 @@ public class WallJump : MonoBehaviour {
 		grounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
 		touchingWall = Physics2D.OverlapCircle(wallCheck.position, checkRadius, whatIsWall);
 
-		float move = Input.GetAxis("Horizontal"); 
+		float move = GameManager.State == GameManager.GameState.INTRO ? 1 : 0; 
 		//float move = 0f;
 		if (grounded) {
 			AuxVector.x = move * maxSpeed;
@@ -54,7 +54,11 @@ public class WallJump : MonoBehaviour {
 		if(wallJumped){
 			Walljump();
 		}
-		
+
+		if (GameManager.State == GameManager.GameState.INTRO && touchingWall) {
+			GameManager.State = GameManager.GameState.STARTED;
+		}
+
 		if(rigidbody2D.velocity.y < 0){	// Causes falling...
 
 			if(touchingWall){
