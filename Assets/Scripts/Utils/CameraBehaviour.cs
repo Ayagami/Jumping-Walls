@@ -21,7 +21,7 @@ public class CameraBehaviour : MonoBehaviour {
 		if (player) {
 			Vector3 pos = my.position;
 			pos.y = player.position.y + 3f;
-			my.position = pos;
+			my.position = Vector3.Lerp (my.position, pos, Time.deltaTime);
 		}
 	}
 }

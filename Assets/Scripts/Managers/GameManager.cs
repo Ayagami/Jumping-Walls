@@ -39,6 +39,8 @@ public class GameManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		State = GameState.INTRO;
+
 		if (!instance)
 			instance = this;
 
@@ -51,6 +53,19 @@ public class GameManager : MonoBehaviour {
 		player = new Player (Instantiate (playerPrefab, spawningPosition, Quaternion.identity) as GameObject);
 
 		Camera.main.GetComponent<CameraBehaviour> ().player = player.transformation;
+
+
+
+	//#if DEBUG
+
+		if(DataManager.instance == null){
+			Debug.Log ("There is not DataManager instantiated");
+			Application.LoadLevel("menu");
+		}else{
+			Debug.Log (DataManager.instance.test);
+		}
+
+	//#endif
 
 	}
 
@@ -130,8 +145,8 @@ public class GameManager : MonoBehaviour {
 
 	void OnGameChanged(GameState state){
 		State = state;
-		if(State == GameState.DONE)
-			Time.timeScale = 0;
+		if (State == GameState.DONE)
+			Application.LoadLevel ("menu");
 	}
 
 	public Player Player{

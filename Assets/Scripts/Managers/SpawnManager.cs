@@ -76,7 +76,6 @@ public class SpawnManager : MonoBehaviour {
 			case 1:{
 				int r = Random.Range (0,3);
 				return r;
-				break;
 			}
 			case 2:{
 				
@@ -86,7 +85,6 @@ public class SpawnManager : MonoBehaviour {
 				}while( r == exception );
 
 				return r;
-				break;
 			}
 		}
 

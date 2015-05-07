@@ -19,6 +19,10 @@ public class SpawnableItem : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D collider){
+		OnTrigger (collider);
+	}
+
+	public virtual void OnTrigger(Collider2D collider){
 		if (player == null)
 			player = GameManager.instance.Player;
 		if (player.isVulnerable() && collider.gameObject == player.gameObject) {
