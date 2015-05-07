@@ -27,6 +27,7 @@ public class WallJump : MonoBehaviour {
 	// Rigidbody 2D Reference.
 	Rigidbody2D rigidbody2D = null;
 	Transform tr = null;
+
 	void Start () {
 		rigidbody2D = this.GetComponent<Rigidbody2D> ();
 		tr = transform;
@@ -40,6 +41,7 @@ public class WallJump : MonoBehaviour {
 		touchingWall = Physics2D.OverlapCircle(wallCheck.position, checkRadius, whatIsWall);
 
 		float move = GameManager.State == GameManager.GameState.INTRO ? 1 : 0; 
+
 		//float move = 0f;
 		if (grounded) {
 			AuxVector.x = move * maxSpeed;
@@ -81,7 +83,7 @@ public class WallJump : MonoBehaviour {
 	}
 	
 	void Update(){
-		bool jump = Input.GetButtonDown("Jump");
+		bool jump = Input.GetButtonDown("Jump") || Input.GetMouseButtonDown(0);
 		if (jump){
 			if (grounded){
 				Jump ();

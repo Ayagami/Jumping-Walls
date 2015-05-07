@@ -55,20 +55,19 @@ public class GameManager : MonoBehaviour {
 		Camera.main.GetComponent<CameraBehaviour> ().player = player.transformation;
 
 
-
 	//#if DEBUG
 
 		if(DataManager.instance == null){
 			Debug.Log ("There is not DataManager instantiated");
 			Application.LoadLevel("menu");
 		}else{
-			Debug.Log (DataManager.instance.test);
+			// Load data from DataManager.
 		}
 
 	//#endif
 
 	}
-
+	
 	void Update(){
 
 		/*
