@@ -17,4 +17,9 @@ public class DataManager : MonoBehaviour {
 	public void GetData(){
 		Debug.Log ("Testing " + test);
 	}
+
+	public void Clean(){
+		//
+	}
+
 }

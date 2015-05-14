@@ -80,17 +80,17 @@ public class Player{
 
 	// -------------------------- GETTERS Y SETTERS
 
-	public void doDamage(float damage){
+	public void doDamage(float damage, bool makeVulnerable = true){
 		hp -= damage;
+		hp = Mathf.Clamp (hp, 0, maxHP);
 		GraphicsManager.instance.SetHP ( hp / maxHP );
-		vulnerable = false;
-		applyBlink = true;
+		vulnerable = !makeVulnerable;
+		applyBlink = makeVulnerable;
 		checkLoseCondition ();
 	}
 
 	private void checkLoseCondition(){
 		if (hp <= 0) {
-			hp = 0;
 			EventsSystem.sendGameStateChanged(GameManager.GameState.DONE);
 		}
 	}
