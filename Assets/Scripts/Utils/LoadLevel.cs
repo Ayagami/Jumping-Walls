@@ -14,4 +14,10 @@ public class LoadLevel : MonoBehaviour {
 	public void Load(string levelName){
 		Application.LoadLevel (levelName);
 	}
+
+	void Update(){
+		if (Input.GetKeyDown (KeyCode.Escape)) {
+			Application.Quit();
+		}
+	}
 }

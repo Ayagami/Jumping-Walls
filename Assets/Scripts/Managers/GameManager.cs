@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour {
 	public float currentY = -1;
 
 
+	private int Score = 0;
 	// Use this for initialization
 	void Start () {
 		State = GameState.INTRO;
@@ -89,6 +90,10 @@ public class GameManager : MonoBehaviour {
 				StartCoroutine(player.Blink());
 			}
 		}
+
+		if (Input.GetKeyDown (KeyCode.Escape)) {
+			EventsSystem.sendGameStateChanged(GameState.PAUSED);
+		}
 	}
 
 	public void checkPlayerPosition(Vector3 playerPos){
@@ -122,6 +127,7 @@ public class GameManager : MonoBehaviour {
 			prevRoom = currentRoom;
 			prevTransform = prevRoom.transform;
 			prevY = prevTransform.GetComponentInChildren<Renderer>().bounds.min.y;
+			AddScore(1000);
 		}
 		currentRoom = go;
 		currentY = currentRoom.GetComponentInChildren<Renderer> ().bounds.max.y;
@@ -132,6 +138,7 @@ public class GameManager : MonoBehaviour {
 		if (roomsLeftToLvlUp <= 0) {
 			roomsLeftToLvlUp = roomsPerLevel;
 			LevelNumber++;
+			AddScore(10000);
 			if(prevRoom != null){
 				ObjectPool.instance.PoolObject(prevRoom);
 				prevRoom = null;
@@ -146,6 +153,21 @@ public class GameManager : MonoBehaviour {
 		State = state;
 		if (State == GameState.DONE)
 			Application.LoadLevel ("menu");
+		if (State == GameState.PAUSED)
+			OnGamePaused ();
+	}
+
+	void OnGamePaused(){
+		Application.LoadLevel ("menu");	// For Now...
+	}
+
+	/*void OnApplicationPause(bool PauseStatus){
+		Time.timeScale = PauseStatus == true ? 1 : 0;
+	}*/
+
+	public void AddScore(int plus){
+		Score += plus;
+		GraphicsManager.instance.SetScore (Score);
 	}
 
 	public Player Player{

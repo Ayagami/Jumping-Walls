@@ -28,9 +28,13 @@ public class WallJump : MonoBehaviour {
 	Rigidbody2D rigidbody2D = null;
 	Transform tr = null;
 
+	private int maxY = 0;
+
 	void Start () {
 		rigidbody2D = this.GetComponent<Rigidbody2D> ();
 		tr = transform;
+
+		maxY = (int) (tr.position.y + 1f);
 
 		EventsSystem.onGameChanged += OnGameStateChanged;
 	}
@@ -96,7 +100,13 @@ public class WallJump : MonoBehaviour {
 			}
 
 			GameManager.instance.checkPlayerPosition(tr.position);
+
+			if(maxY <= tr.position.y){
+				GameManager.instance.AddScore( (int)tr.position.y - maxY );
+				maxY = (int) tr.position.y;
+			}
 		} 
+		
 	}
 	
 	void Flip(){      
