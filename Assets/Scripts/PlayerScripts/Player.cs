@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 
 public class Player{
@@ -23,6 +24,8 @@ public class Player{
 
 	public bool applyBlink = false;
 
+    private Dictionary<string, Actions> m_dcSkills;
+
 	public Player(GameObject _go, float iTime = 1f){
 
 		this.gameObject = _go;
@@ -32,6 +35,9 @@ public class Player{
 		this.invulnTime = iTime;
 		this.m_fVulnTime = invulnTime;
 		this.maxHP = hp;
+
+        this.m_dcSkills = new Dictionary<string,Actions>();
+
 	}
 
 	public void OnUpdate(){
@@ -42,9 +48,26 @@ public class Player{
 				vulnerable = true;
 				m_fVulnTime = invulnTime;
 			}
-
 		}
 	}
+
+    public void addSkill(string skillName, Actions action)
+    {
+        if (!m_dcSkills.ContainsKey(skillName)){
+            m_dcSkills[skillName] = action;
+            //this.gameObject.AddComponent(action.GetType());
+        }
+    }
+
+    public Actions getSkill(string skillName)
+    {
+        if (m_dcSkills[skillName])
+        {
+            return m_dcSkills[skillName];
+        }
+
+        return null;
+    }
 
 	// -------------------------- GETTERS Y SETTERS
 	public GameObject gameObject{

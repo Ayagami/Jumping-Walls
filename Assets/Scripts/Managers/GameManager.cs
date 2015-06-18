@@ -34,8 +34,7 @@ public class GameManager : MonoBehaviour {
 	private float prevY = -1;
 
 	private GameObject currentRoom = null;
-	public float currentY = -1;
-
+	public float currentY = -1;    
 
 	private int Score = 0;
 	// Use this for initialization
@@ -52,6 +51,9 @@ public class GameManager : MonoBehaviour {
 		AddRoom ();
 
 		player = new Player (Instantiate (playerPrefab, spawningPosition, Quaternion.identity) as GameObject);
+        DestroyBlock component = player.gameObject.GetComponentInChildren<DestroyBlock>();
+
+        player.addSkill(component.getName(), component);
 
 		Camera.main.GetComponent<CameraBehaviour> ().player = player.transformation;
 
@@ -94,6 +96,10 @@ public class GameManager : MonoBehaviour {
 		if (Input.GetKeyDown (KeyCode.Escape)) {
 			EventsSystem.sendGameStateChanged(GameState.PAUSED);
 		}
+
+        if (Input.GetKeyDown(KeyCode.B)){
+            player.getSkill("DestroyBlock").execute();
+        }
 	}
 
 	public void checkPlayerPosition(Vector3 playerPos){
