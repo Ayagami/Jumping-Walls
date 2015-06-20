@@ -142,14 +142,18 @@ public class GameManager : MonoBehaviour {
 
 	void checkLvlUp(){
 		if (roomsLeftToLvlUp <= 0) {
+			Debug.Log("LLego...");
 			roomsLeftToLvlUp = roomsPerLevel;
 			LevelNumber++;
 			AddScore(10000);
-			if(prevRoom != null){
-				ObjectPool.instance.PoolObject(prevRoom);
-				prevRoom = null;
-				prevTransform = null;
-			}
+
+		}
+
+		if(prevRoom != null){
+			Debug.Log("Reciclo");
+			ObjectPool.instance.PoolObject(prevRoom);
+			prevRoom = null;
+			prevTransform = null;
 		}
 
 		pendingLevel = true;
