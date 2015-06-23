@@ -47,16 +47,17 @@ public class GameManager : MonoBehaviour {
 		roomsLeftToLvlUp = roomsPerLevel;
 
 		EventsSystem.onGameChanged += OnGameChanged;
+		EventsSystem.onNewInputSystem += InputManagement;
+		
 
 		AddRoom ();
 
-		player = new Player (Instantiate (playerPrefab, spawningPosition, Quaternion.identity) as GameObject);
+		player = new Player (Instantiate (playerPrefab, Vector3.zero, Quaternion.identity) as GameObject);
         DestroyBlock component = player.gameObject.GetComponentInChildren<DestroyBlock>();
 
         player.addSkill(component.getName(), component);
 
 		Camera.main.GetComponent<CameraBehaviour> ().player = player.transformation;
-
 
 	//#if DEBUG
 
@@ -69,6 +70,14 @@ public class GameManager : MonoBehaviour {
 
 	//#endif
 
+	}
+	
+	void InputManagement(InputManager.MainControls control){
+		switch(control){
+			case InputManager.MainControls.DESTROY_BLOCK_ACTION:
+				player.getSkill("DestroyBlock").execute();
+				break;
+		}
 	}
 	
 	void Update(){
@@ -96,23 +105,23 @@ public class GameManager : MonoBehaviour {
 		if (Input.GetKeyDown (KeyCode.Escape)) {
 			EventsSystem.sendGameStateChanged(GameState.PAUSED);
 		}
-
-        if (Input.GetKeyDown(KeyCode.B)){
+		/*
+        if (InputManager.isTriggeringDown(InputManager.DESTROY_BLOCK_ACTION)){
             player.getSkill("DestroyBlock").execute();
-        }
+        }*/
 	}
 
 	public void checkPlayerPosition(Vector3 playerPos){
 		if (currentRoom != null) {	// Asumo que hay una room activa.
 			Bounds r = currentRoom.GetComponentInChildren<Renderer>().bounds;
-			float roomY = r.center.y;
+			float roomY = currentRoom.transform.position.y;
 			if(playerPos.y >= roomY){
 				if(pendingLevel){
 					pendingLevel = false;
 					AddRoom();
 				}
 				r = currentRoom.GetComponentInChildren<Renderer>().bounds;
-				roomY = r.min.y;
+				roomY = r.center.y;
 				if(playerPos.y >= roomY){
 					checkLvlUp();
 				}
@@ -128,7 +137,7 @@ public class GameManager : MonoBehaviour {
 			prevY = go.GetComponentInChildren<Renderer>().bounds.min.y;
 		}
 		else {
-			spawningPosition.y = go.GetComponentInChildren<Renderer> ().bounds.size.y / 2 + currentRoom.GetComponentInChildren<Renderer> ().bounds.max.y;
+			spawningPosition.y = currentRoom.GetComponentInChildren<Renderer> ().bounds.max.y;
 			go.transform.position = spawningPosition;
 			prevRoom = currentRoom;
 			prevTransform = prevRoom.transform;
