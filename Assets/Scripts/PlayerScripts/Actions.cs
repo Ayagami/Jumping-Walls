@@ -10,7 +10,12 @@ public class Actions : MonoBehaviour {
     public float m_fCoolDown   = 0f;
     private float m_fAuxCd      = 0f;
 
-    public void Start() {
+    void Start() {
+        OnStart();
+    }
+
+    public virtual void OnStart()
+    {
         m_fAuxCd = m_fCoolDown; 
     }
 
@@ -29,8 +34,12 @@ public class Actions : MonoBehaviour {
         Debug.LogError("Hey, you have an action, that don't run any execute()!!! Please, lookUp to " + m_sName);
     }
 
-    public void Update() {
-        m_fAuxCd += Time.deltaTime;        
+    void Update() {
+        OnUpdate();
+    }
+
+    public virtual void OnUpdate() {
+        m_fAuxCd += Time.deltaTime; 
     }
 
     public float coolDown {

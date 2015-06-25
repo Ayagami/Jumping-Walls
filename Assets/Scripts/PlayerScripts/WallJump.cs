@@ -6,7 +6,7 @@ public class WallJump : MonoBehaviour {
 	public float maxSpeed = 10f;
 	public float jumpForce = 4f;
 	public float jumpPushForce = 10f;
-	bool facingRight = true;
+	public bool facingRight = true;
 	bool doubleJump = true;
 	bool wallJumped = false;
 	bool wallJumping = false;
@@ -141,7 +141,15 @@ public class WallJump : MonoBehaviour {
 		switch(control){
 			case InputManager.MainControls.JUMP_ACTION:
 				needToApplyjump = true;
-			break;
+                break;
+            case InputManager.MainControls.JUMP_ACTION_LEFT:
+                if (facingRight)
+                    needToApplyjump = true;
+                break;
+            case InputManager.MainControls.JUMP_ACTION_RIGHT:
+                if (!facingRight)
+                    needToApplyjump = true;
+			    break;
 		}
 	}
 	

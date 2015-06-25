@@ -59,6 +59,10 @@ public class GameManager : MonoBehaviour {
 
 		Camera.main.GetComponent<CameraBehaviour> ().player = player.transformation;
 
+    #if UNITY_ANDROID
+        callPlugin();
+    #endif
+
 	//#if DEBUG
 
 		if(DataManager.instance == null){
@@ -71,6 +75,26 @@ public class GameManager : MonoBehaviour {
 	//#endif
 
 	}
+
+    void callPlugin(){
+    #if UNITY_ANDROID
+        if (Application.isMobilePlatform)
+        {
+            using (AndroidJavaClass ajo = new AndroidJavaClass("com.ligool.plugin.Main"))
+            {
+                ajo.CallStatic("Test");
+            }
+            using (AndroidJavaClass ajo = new AndroidJavaClass("com.ligool.plugin.Main"))
+            {
+                int p = ajo.CallStatic<int>("getInt");
+                Debug.Log("Callback from getInt : " + p);
+            }
+        }
+    #endif
+    }
+    void HelloFromAndroid(string log){
+        Debug.Log(log);
+    }
 	
 	void InputManagement(InputManager.MainControls control){
 		switch(control){
@@ -146,6 +170,7 @@ public class GameManager : MonoBehaviour {
 		}
 		currentRoom = go;
 		currentY = currentRoom.GetComponentInChildren<Renderer> ().bounds.max.y;
+        Debug.Log("SPAWNING POSITION IS : " + spawningPosition);
 		roomsLeftToLvlUp--;
 	}
 

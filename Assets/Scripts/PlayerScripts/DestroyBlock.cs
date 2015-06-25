@@ -5,15 +5,15 @@ public class DestroyBlock : Actions {
 	// Use this for initialization
     private GameObject target = null;
 
-	void Start () {
-        base.Start();
+	public override void OnStart () {
+        base.OnStart();
         m_sName = "DestroyBlock";
         m_sTag  = "Hitable";
     }
 	
 	// Update is called once per frame
-	void Update () {
-        base.Update();
+	public override void OnUpdate () {
+        base.OnUpdate();
 	}
 
     public override void Action(){

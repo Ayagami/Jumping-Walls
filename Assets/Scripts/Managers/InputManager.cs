@@ -5,7 +5,9 @@ public class InputManager : MonoBehaviour {
 	
 	public enum MainControls{
 		DESTROY_BLOCK_ACTION,
-		JUMP_ACTION
+		JUMP_ACTION,
+        JUMP_ACTION_LEFT,
+        JUMP_ACTION_RIGHT
 	};
 	private static Detector inputDetector = null;
 	// Use this for initialization
@@ -88,9 +90,9 @@ public class SwipeDetector : Detector {
 		
 		            if(swipeType.x != 0.0f){
 		              if(swipeType.x > 0.0f){
-		                Debug.Log("Swipe Right");
+		                EventsSystem.sendNewInputsystem(InputManager.MainControls.JUMP_ACTION_RIGHT);
 		              }else{
-		                Debug.Log("Swipe Left");
+		                EventsSystem.sendNewInputsystem(InputManager.MainControls.JUMP_ACTION_LEFT);
 		              }
 		            }
 		
@@ -104,7 +106,7 @@ public class SwipeDetector : Detector {
 					
 				}
 				else{
-					EventsSystem.sendNewInputsystem(InputManager.MainControls.JUMP_ACTION);
+					//EventsSystem.sendNewInputsystem(InputManager.MainControls.JUMP_ACTION);
 				}
 				
 	          }
