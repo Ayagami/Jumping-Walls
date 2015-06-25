@@ -20,12 +20,11 @@ public class Actions : MonoBehaviour {
     }
 
     public void execute() {
-        if (canExecute()){
+        if (canExecute()) {
             m_fAuxCd = 0;
             Action();
         }
-        else
-        {
+        else {
             Debug.LogWarning("Hey, this spell is not ready yet.");
         }
     }
@@ -55,8 +54,7 @@ public class Actions : MonoBehaviour {
         return m_fAuxCd >= m_fCoolDown;
     }
 
-    public string getName()
-    {
+    public string getName(){
         return m_sName;
     }
 

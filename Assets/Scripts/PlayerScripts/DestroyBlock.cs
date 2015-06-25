@@ -18,7 +18,7 @@ public class DestroyBlock : Actions {
 
     public override void Action(){
         //Debug.Log("DestroyBlock bitch!!!");
-        if (target){
+        if (target) {
             Debug.Log("Pooling gameObject bitch " + target.gameObject.name);
             ObjectPool.instance.PoolObject(target.gameObject);
             target = null;
@@ -26,14 +26,13 @@ public class DestroyBlock : Actions {
     }
 
     void OnTriggerEnter2D(Collider2D obj){
-        if (obj.tag.Equals(m_sTag)){
+        if (obj.tag.Equals(m_sTag)) {
             target = obj.gameObject;
         }
     }
 
     void OnTriggerExit2D(Collider2D obj){
-        if (obj.tag.Equals(m_sTag) && obj.gameObject == target)
-        {
+        if (obj.tag.Equals(m_sTag) && obj.gameObject == target) {
             target = null;
         }
     }

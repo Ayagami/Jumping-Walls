@@ -78,17 +78,19 @@ public class GameManager : MonoBehaviour {
 
     void callPlugin(){
     #if UNITY_ANDROID
-        if (Application.isMobilePlatform)
-        {
-            using (AndroidJavaClass ajo = new AndroidJavaClass("com.ligool.plugin.Main"))
-            {
+        if (Application.isMobilePlatform) {
+            using (AndroidJavaClass ajo = new AndroidJavaClass("com.ligool.plugin.Main")) {
                 ajo.CallStatic("Test");
             }
-            using (AndroidJavaClass ajo = new AndroidJavaClass("com.ligool.plugin.Main"))
-            {
+            using (AndroidJavaClass ajo = new AndroidJavaClass("com.ligool.plugin.Main")) {
                 int p = ajo.CallStatic<int>("getInt");
                 Debug.Log("Callback from getInt : " + p);
-            }
+            }/*
+            using (AndroidJavaClass pInstance = new AndroidJavaClass("com.ligool.plugin.MainActivity"))
+            {
+                AndroidJavaObject pluginInstance = pInstance.CallStatic<AndroidJavaObject>("instance");
+                pluginInstance.Call("shareText", "Jumping Wall", "Please Share this App to Continue.");
+            }*/
         }
     #endif
     }
