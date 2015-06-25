@@ -85,12 +85,14 @@ public class GameManager : MonoBehaviour {
             using (AndroidJavaClass ajo = new AndroidJavaClass("com.ligool.plugin.Main")) {
                 int p = ajo.CallStatic<int>("getInt");
                 Debug.Log("Callback from getInt : " + p);
-            }/*
+            }
+            /*
             using (AndroidJavaClass pInstance = new AndroidJavaClass("com.ligool.plugin.MainActivity"))
             {
-                AndroidJavaObject pluginInstance = pInstance.CallStatic<AndroidJavaObject>("instance");
-                pluginInstance.Call("shareText", "Jumping Wall", "Please Share this App to Continue.");
-            }*/
+                //AndroidJavaObject pluginInstance = pInstance.CallStatic<AndroidJavaObject>("instance");
+                pInstance.CallStatic("shareText", "Jumping Wall", "Please Share this App to Continue.");
+            }
+            */
         }
     #endif
     }
