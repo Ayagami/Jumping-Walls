@@ -8,6 +8,9 @@ public class EventsSystem {
 	
 	public delegate void NewInputSystem(InputManager.MainControls button);
 	public static event NewInputSystem onNewInputSystem = null;
+
+    public delegate void SaveEventTrigger();
+    public static event SaveEventTrigger onNewSaveEvent = null;
 	
 	public static void sendGameStateChanged(GameManager.GameState state){
 		if(onGameChanged != null)
@@ -19,6 +22,11 @@ public class EventsSystem {
 		if(onNewInputSystem != null)
 			onNewInputSystem(button);
 	}
-	
+
+    public static void sendSaveEvent()
+    {
+        if (onNewSaveEvent != null)
+            onNewSaveEvent();
+    }
 	
 }

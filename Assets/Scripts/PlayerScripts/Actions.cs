@@ -10,6 +10,8 @@ public class Actions : MonoBehaviour {
     public float m_fCoolDown   = 0f;
     private float m_fAuxCd      = 0f;
 
+    public bool isEnabled = false;
+
     void Start() {
         OnStart();
     }
@@ -51,7 +53,7 @@ public class Actions : MonoBehaviour {
     }
 
     private bool canExecute(){
-        return m_fAuxCd >= m_fCoolDown;
+        return m_fAuxCd >= m_fCoolDown && isEnabled;
     }
 
     public string getName(){

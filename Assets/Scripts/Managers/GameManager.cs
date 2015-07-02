@@ -62,14 +62,18 @@ public class GameManager : MonoBehaviour {
 
 		roomsLeftToLvlUp = roomsPerLevel;
 
-		EventsSystem.onGameChanged += OnGameChanged;
-		EventsSystem.onNewInputSystem += InputManagement;
-		
+		EventsSystem.onGameChanged      += OnGameChanged;
+		EventsSystem.onNewInputSystem   += InputManagement;
+        EventsSystem.onNewSaveEvent     += onSaveEvent;
 
 		AddRoom ();
 
+        
+
 		player = new Player (Instantiate (playerPrefab, Vector3.zero, Quaternion.identity) as GameObject);
         DestroyBlock component = player.gameObject.GetComponentInChildren<DestroyBlock>();
+
+        component.isEnabled = true;
 
         player.addSkill(component.getName(), component);
 
@@ -81,6 +85,9 @@ public class GameManager : MonoBehaviour {
 	
 	}
 
+    void onSaveEvent(){
+        DataManager.setHighScore(Score);
+    }
     void callPlugin(){
     #if UNITY_ANDROID
         if (Application.isMobilePlatform) {
@@ -199,7 +206,6 @@ public class GameManager : MonoBehaviour {
 
 	void checkLvlUp(){
 		if (roomsLeftToLvlUp <= 0) {
-			Debug.Log("LLego...");
 			roomsLeftToLvlUp = roomsPerLevel;
 			LevelNumber++;
 			AddScore(10000);
@@ -207,7 +213,6 @@ public class GameManager : MonoBehaviour {
 		}
 
 		if(prevRoom != null){
-			Debug.Log("Reciclo");
 			ObjectPool.instance.PoolObject(prevRoom);
 			prevRoom = null;
 			prevTransform = null;
@@ -218,8 +223,11 @@ public class GameManager : MonoBehaviour {
 
 	void OnGameChanged(GameState state){
 		State = state;
-		if (State == GameState.DONE)
-			Application.LoadLevel ("menu");
+        if (State == GameState.DONE)
+        {
+            EventsSystem.sendSaveEvent();
+            Application.LoadLevel("menu");
+        }
 		if (State == GameState.PAUSED)
 			OnGamePaused ();
 	}
