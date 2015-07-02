@@ -34,6 +34,11 @@ public class GameManager : MonoBehaviour {
 	private float prevY = -1;
 
 	private GameObject currentRoom = null;
+	
+	private Transform currentRoomTransform = null;
+	private Bounds currentRoomBounds;
+	
+	private Vector3 viewportMaxVectorForRoom = Vector3.zero;
 	public float currentY = -1;    
 
 	private int Score = 0;
@@ -43,6 +48,17 @@ public class GameManager : MonoBehaviour {
 
 		if (!instance)
 			instance = this;
+			
+		//#if DEBUG
+
+		if(DataManager.instance == null){
+			Debug.Log ("There is not DataManager instantiated");
+			Application.LoadLevel("menu");
+		}else{
+			// Load data from DataManager.
+		}
+
+		//#endif
 
 		roomsLeftToLvlUp = roomsPerLevel;
 
@@ -59,21 +75,10 @@ public class GameManager : MonoBehaviour {
 
 		Camera.main.GetComponent<CameraBehaviour> ().player = player.transformation;
 
-    #if UNITY_ANDROID
-        callPlugin();
-    #endif
-
-	//#if DEBUG
-
-		if(DataManager.instance == null){
-			Debug.Log ("There is not DataManager instantiated");
-			Application.LoadLevel("menu");
-		}else{
-			// Load data from DataManager.
-		}
-
-	//#endif
-
+    	#if UNITY_ANDROID
+        	callPlugin();
+    	#endif
+	
 	}
 
     void callPlugin(){
@@ -121,6 +126,19 @@ public class GameManager : MonoBehaviour {
 		if (player.transformation.position.y <= prevY) {
 			EventsSystem.sendGameStateChanged(GameState.DONE);
 		}
+		
+		if(currentRoomTransform){	
+			Vector3 wPoint = currentRoomBounds.max;
+			viewportMaxVectorForRoom = Camera.main.WorldToViewportPoint(wPoint);
+			if(viewportMaxVectorForRoom.y < 1f){
+				checkLvlUp();
+				if(pendingLevel){
+					AddRoom();
+					pendingLevel = false;
+				}
+			}
+			
+		}
 
 		if (player != null) {
 			player.OnUpdate ();	// Llamo al update del player!
@@ -139,14 +157,14 @@ public class GameManager : MonoBehaviour {
         }*/
 	}
 
-	public void checkPlayerPosition(Vector3 playerPos){
+	/*public void checkPlayerPosition(Vector3 playerPos){
 		if (currentRoom != null) {	// Asumo que hay una room activa.
 			Bounds r = currentRoom.GetComponentInChildren<Renderer>().bounds;
 			float roomY = currentRoom.transform.position.y;
 			if(playerPos.y >= roomY){
 				if(pendingLevel){
 					pendingLevel = false;
-					AddRoom();
+					//AddRoom();
 				}
 				r = currentRoom.GetComponentInChildren<Renderer>().bounds;
 				roomY = r.center.y;
@@ -155,7 +173,7 @@ public class GameManager : MonoBehaviour {
 				}
 			}
 		}
-	}
+	}*/
 
 	void AddRoom(){
 		GameObject go = ObjectPool.instance.GetObjectForType ("Room");
@@ -173,8 +191,9 @@ public class GameManager : MonoBehaviour {
 			AddScore(1000);
 		}
 		currentRoom = go;
-		currentY = currentRoom.GetComponentInChildren<Renderer> ().bounds.max.y;
-        Debug.Log("SPAWNING POSITION IS : " + spawningPosition);
+		currentRoomTransform = currentRoom.transform;
+		currentRoomBounds = currentRoom.GetComponentInChildren<Renderer>().bounds;
+		currentY = currentRoom.GetComponentInChildren<Renderer> ().bounds.max.y;	
 		roomsLeftToLvlUp--;
 	}
 

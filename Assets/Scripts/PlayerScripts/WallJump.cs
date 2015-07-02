@@ -129,7 +129,7 @@ public class WallJump : MonoBehaviour {
 				DoubleJump();
 		}
 
-		GameManager.instance.checkPlayerPosition(tr.position);
+		//GameManager.instance.checkPlayerPosition(tr.position);
 
 		if(maxY <= tr.position.y){
 			GameManager.instance.AddScore( (int)tr.position.y - maxY );
