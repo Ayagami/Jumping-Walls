@@ -48,8 +48,6 @@ public class GameManager : MonoBehaviour {
 
 		if (!instance)
 			instance = this;
-			
-		//#if DEBUG
 
 		if(DataManager.instance == null){
 			Debug.Log ("There is not DataManager instantiated");
@@ -58,8 +56,6 @@ public class GameManager : MonoBehaviour {
 			// Load data from DataManager.
 		}
 
-		//#endif
-
 		roomsLeftToLvlUp = roomsPerLevel;
 
 		EventsSystem.onGameChanged      += OnGameChanged;
@@ -67,8 +63,6 @@ public class GameManager : MonoBehaviour {
         EventsSystem.onNewSaveEvent     += onSaveEvent;
 
 		AddRoom ();
-
-        
 
 		player = new Player (Instantiate (playerPrefab, Vector3.zero, Quaternion.identity) as GameObject);
         DestroyBlock component = player.gameObject.GetComponentInChildren<DestroyBlock>();
@@ -98,13 +92,6 @@ public class GameManager : MonoBehaviour {
                 int p = ajo.CallStatic<int>("getInt");
                 Debug.Log("Callback from getInt : " + p);
             }
-            /*
-            using (AndroidJavaClass pInstance = new AndroidJavaClass("com.ligool.plugin.MainActivity"))
-            {
-                //AndroidJavaObject pluginInstance = pInstance.CallStatic<AndroidJavaObject>("instance");
-                pInstance.CallStatic("shareText", "Jumping Wall", "Please Share this App to Continue.");
-            }
-            */
         }
     #endif
     }
@@ -121,14 +108,6 @@ public class GameManager : MonoBehaviour {
 	}
 	
 	void Update(){
-
-		/*
-		if (prevRoom) {	// we can lose...
-			if(player.transform.position.y <= prevY){
-				State = GameState.DONE;
-				EventsSystem.sendGameStateChanged(State);
-			}
-		}*/
 
 		if (player.transformation.position.y <= prevY) {
 			EventsSystem.sendGameStateChanged(GameState.DONE);
@@ -158,38 +137,18 @@ public class GameManager : MonoBehaviour {
 		if (Input.GetKeyDown (KeyCode.Escape)) {
 			EventsSystem.sendGameStateChanged(GameState.PAUSED);
 		}
-		/*
-        if (InputManager.isTriggeringDown(InputManager.DESTROY_BLOCK_ACTION)){
-            player.getSkill("DestroyBlock").execute();
-        }*/
 	}
-
-	/*public void checkPlayerPosition(Vector3 playerPos){
-		if (currentRoom != null) {	// Asumo que hay una room activa.
-			Bounds r = currentRoom.GetComponentInChildren<Renderer>().bounds;
-			float roomY = currentRoom.transform.position.y;
-			if(playerPos.y >= roomY){
-				if(pendingLevel){
-					pendingLevel = false;
-					//AddRoom();
-				}
-				r = currentRoom.GetComponentInChildren<Renderer>().bounds;
-				roomY = r.center.y;
-				if(playerPos.y >= roomY){
-					checkLvlUp();
-				}
-			}
-		}
-	}*/
 
 	void AddRoom(){
 		GameObject go = ObjectPool.instance.GetObjectForType ("Room");
 
 		if (currentRoom == null) {
+			spawningPosition.x = go.transform.position.x;
 			go.transform.position = spawningPosition;
 			prevY = go.GetComponentInChildren<Renderer>().bounds.min.y;
 		}
 		else {
+			spawningPosition.x = go.transform.position.x;
 			spawningPosition.y = currentRoom.GetComponentInChildren<Renderer> ().bounds.max.y;
 			go.transform.position = spawningPosition;
 			prevRoom = currentRoom;
@@ -235,11 +194,7 @@ public class GameManager : MonoBehaviour {
 	void OnGamePaused(){
 		Application.LoadLevel ("menu");	// For Now...
 	}
-
-	/*void OnApplicationPause(bool PauseStatus){
-		Time.timeScale = PauseStatus == true ? 1 : 0;
-	}*/
-
+	
 	public void AddScore(int plus){
 		Score += plus;
 		GraphicsManager.instance.SetScore (Score);

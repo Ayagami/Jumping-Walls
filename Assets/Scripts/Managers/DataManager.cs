@@ -8,7 +8,7 @@ public class DataManager : MonoBehaviour {
 	public static DataManager instance = null;
     private static string token        = "87859b6921509e0Au9sjR4ep8H9T1FED0g2JH65E";
     public string saveFile             = "jumpingWalls.txt";
-    public string tag                  = "dictionary";
+    public string NameTag                  = "dictionary";
     public bool useEncrypt             = true;
 
     private Dictionary<string, System.Object> m_dDictionary;
@@ -50,7 +50,7 @@ public class DataManager : MonoBehaviour {
         string s = Json.Serialize(m_dDictionary);
         Debug.Log("Saving..." + s);
         string encodedS = Base64Encode(s);
-        ES2.Save(encodedS, calculateString(tag));
+        ES2.Save(encodedS, calculateString(NameTag));
 	}
 
     string calculateString(string tag){
@@ -67,7 +67,7 @@ public class DataManager : MonoBehaviour {
 
 	private void load(){
 		if(ES2.Exists(saveFile)){
-            string load = ES2.Load<string>(calculateString(tag));
+            string load = ES2.Load<string>(calculateString(NameTag));
             string decodedLoad = Base64Decode(load);
             m_dDictionary = Json.Deserialize(decodedLoad) as Dictionary<string, System.Object>;
             Debug.Log("Load... " + decodedLoad);

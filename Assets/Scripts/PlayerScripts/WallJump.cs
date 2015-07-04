@@ -33,13 +33,15 @@ public class WallJump : MonoBehaviour {
 	private bool needToApplyjump = false;
 
 	void Start () {
+		
 		rigidbody2D = this.GetComponent<Rigidbody2D> ();
 		tr = transform;
 
 		maxY = (int) (tr.position.y + 1f);
 
-		EventsSystem.onGameChanged += OnGameStateChanged;
-		EventsSystem.onNewInputSystem += InputMangement;
+		EventsSystem.onGameChanged 	  += OnGameStateChanged;
+		EventsSystem.onNewInputSystem += InputManagement;
+		
 	}
 	
 	void FixedUpdate () {
@@ -90,27 +92,6 @@ public class WallJump : MonoBehaviour {
 	}
 	
 	void Update(){
-		//bool jump = Input.GetButtonDown("Jump") || Input.GetMouseButtonDown(0);
-		/*bool jump = InputManager.isTriggeringDown(InputManager.JUMP_ACTION);
-		if (jump){
-			if (grounded){
-				Jump ();
-			}
-			else if (touchingWall){
-				wallJumped = true;
-			}
-			else if (doubleJump){
-				DoubleJump();
-			}
-
-			GameManager.instance.checkPlayerPosition(tr.position);
-
-			if(maxY <= tr.position.y){
-				GameManager.instance.AddScore( (int)tr.position.y - maxY );
-				maxY = (int) tr.position.y;
-			}
-		} 
-		*/
 		
 		if(needToApplyjump){
 			ApplyJump();
@@ -129,15 +110,13 @@ public class WallJump : MonoBehaviour {
 				DoubleJump();
 		}
 
-		//GameManager.instance.checkPlayerPosition(tr.position);
-
 		if(maxY <= tr.position.y){
 			GameManager.instance.AddScore( (int)tr.position.y - maxY );
 			maxY = (int) tr.position.y;
 		}
 	}
 	
-	void InputMangement(InputManager.MainControls control){
+	void InputManagement(InputManager.MainControls control){
 		switch(control){
 			case InputManager.MainControls.JUMP_ACTION:
 				needToApplyjump = true;
