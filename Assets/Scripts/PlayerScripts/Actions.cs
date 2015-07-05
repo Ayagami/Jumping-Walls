@@ -2,7 +2,6 @@
 using System.Collections;
 
 public class Actions : MonoBehaviour {
-    
 
     public string m_sName       = "";
     public string m_sTag        = "";
@@ -11,6 +10,8 @@ public class Actions : MonoBehaviour {
     private float m_fAuxCd      = 0f;
 
     public bool isEnabled = false;
+    
+    public string actionTagOnData = "";
 
     void Start() {
         OnStart();

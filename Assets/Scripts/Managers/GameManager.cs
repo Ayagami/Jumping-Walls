@@ -64,24 +64,37 @@ public class GameManager : MonoBehaviour {
 
 		AddRoom ();
 
-		player = new Player (Instantiate (playerPrefab, Vector3.zero, Quaternion.identity) as GameObject);
-        DestroyBlock component = player.gameObject.GetComponentInChildren<DestroyBlock>();
-
-        component.isEnabled = true;
-
-        player.addSkill(component.getName(), component);
-
-		Camera.main.GetComponent<CameraBehaviour> ().player = player.transformation;
+		doPlayerInitializations();
 
     	#if UNITY_ANDROID
         	callPlugin();
     	#endif
 	
 	}
+	
+	void doPlayerInitializations(){
+		player = new Player (Instantiate (playerPrefab, Vector3.zero, Quaternion.identity) as GameObject);
+        DestroyBlock component = player.gameObject.GetComponentInChildren<DestroyBlock>();
+
+		component.OnStart();
+
+        component.isEnabled = DataManager.ExistsDataOnDictionary(component.actionTagOnData);
+		
+		Debug.Log("component enabled: " + component.isEnabled);
+		
+        player.addSkill(component.getName(), component);
+
+		Camera.main.GetComponent<CameraBehaviour> ().player = player.transformation;
+	}
 
     void onSaveEvent(){
         DataManager.setHighScore(Score);
     }
+	
+	void OnApplicationPause(bool isPaused){
+		Debug.Log("Application Pause" + isPaused);
+	}
+	
     void callPlugin(){
     #if UNITY_ANDROID
         if (Application.isMobilePlatform) {

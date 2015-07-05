@@ -8,15 +8,21 @@ public class DataManager : MonoBehaviour {
 	public static DataManager instance = null;
     private static string token        = "87859b6921509e0Au9sjR4ep8H9T1FED0g2JH65E";
     public string saveFile             = "jumpingWalls.txt";
-    public string NameTag                  = "dictionary";
+    public string NameTag              = "dictionary";
     public bool useEncrypt             = true;
 
     private Dictionary<string, System.Object> m_dDictionary;
+    
+    private GameObject g = null;
 	// Use this for initialization
 	void Start () {
 		if (instance == null){
-			instance = this;
+            instance = this;
+            g = GameObject.FindGameObjectWithTag("PPYN") as GameObject;
             load();
+            if(m_dDictionary != null && g != null){
+                g.SetActive(!m_dDictionary.ContainsKey("NickName"));
+            }
 		}
 	}
 
@@ -32,7 +38,11 @@ public class DataManager : MonoBehaviour {
 	public void GetData(){
 	}
 
-	public void Clean(){
+	public void OnSceneChange(){
+         g = GameObject.FindGameObjectWithTag("PPYN") as GameObject;
+         if(m_dDictionary != null && g != null){
+            g.SetActive(!m_dDictionary.ContainsKey("NickName"));
+         }
 	}
 
     public static void setHighScore(int score){
@@ -45,6 +55,19 @@ public class DataManager : MonoBehaviour {
             instance.m_dDictionary["HighScore"] = score;
     }
 
+    public static bool ExistsDataOnDictionary(string key){
+        if(instance.m_dDictionary == null)
+            return false;
+            
+       return instance.m_dDictionary.ContainsKey(key);
+    }
+
+    public static void setNickName(string s){
+        instance.m_dDictionary["NickName"] = s;
+        Debug.Log("Setting nickname " + s);
+        instance.g.SetActive(false);
+    }
+    
 	private void save(){
 		// Converting Dictionary to json...
         string s = Json.Serialize(m_dDictionary);
