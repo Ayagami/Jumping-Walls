@@ -65,6 +65,8 @@ public class GameManager : MonoBehaviour {
 		AddRoom ();
 
 		doPlayerInitializations();
+		
+		DataManager.enableAds(true);
 
     	#if UNITY_ANDROID
         	callPlugin();
@@ -80,14 +82,13 @@ public class GameManager : MonoBehaviour {
 
         component.isEnabled = DataManager.ExistsDataOnDictionary(component.actionTagOnData);
 		
-		Debug.Log("component enabled: " + component.isEnabled);
-		
         player.addSkill(component.getName(), component);
 
 		Camera.main.GetComponent<CameraBehaviour> ().player = player.transformation;
 	}
 
     void onSaveEvent(){
+		DataManager.addCoins(Score);
         DataManager.setHighScore(Score);
     }
 	
@@ -198,7 +199,8 @@ public class GameManager : MonoBehaviour {
         if (State == GameState.DONE)
         {
             EventsSystem.sendSaveEvent();
-            Application.LoadLevel("menu");
+         	DataManager.enableAds(false);
+		    Application.LoadLevel("menu");
         }
 		if (State == GameState.PAUSED)
 			OnGamePaused ();

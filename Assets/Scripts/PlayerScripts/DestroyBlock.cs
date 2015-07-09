@@ -9,7 +9,7 @@ public class DestroyBlock : Actions {
         base.OnStart();
         m_sName = "DestroyBlock";
         m_sTag  = "Hitable";
-        actionTagOnData = "DESTROY_BLOCK";
+        actionTagOnData = BuyableManager.BUYABLE_DESTROYBLOCK;
     }
 	
 	// Update is called once per frame

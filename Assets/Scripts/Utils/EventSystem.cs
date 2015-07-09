@@ -12,6 +12,9 @@ public class EventsSystem {
     public delegate void SaveEventTrigger();
     public static event SaveEventTrigger onNewSaveEvent = null;
 	
+	public delegate void MakeNewPurchase(int coinsLeft);
+	public static event MakeNewPurchase onNewPurchase = null;
+	
 	public static void sendGameStateChanged(GameManager.GameState state){
 		if(onGameChanged != null)
 			onGameChanged (state);
@@ -29,4 +32,8 @@ public class EventsSystem {
             onNewSaveEvent();
     }
 	
+	public static void makeNewPurchaseTrigger(int coinsLeft){
+		if(onNewPurchase != null)
+			onNewPurchase(coinsLeft);
+	}
 }
