@@ -11,6 +11,8 @@ public class LoadLevel : MonoBehaviour {
 		} else {
 			DataManager.instance.OnSceneChange();
 		}
+		
+		Time.timeScale = 1;
 	}
 	public void Load(string levelName){
 		Application.LoadLevel (levelName);

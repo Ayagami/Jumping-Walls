@@ -22,7 +22,7 @@ public class EventsSystem {
 	
 	
 	public static void sendNewInputsystem(InputManager.MainControls button){
-		if(onNewInputSystem != null)
+		if(onNewInputSystem != null && GameManager.State != GameManager.GameState.PAUSED)
 			onNewInputSystem(button);
 	}
 

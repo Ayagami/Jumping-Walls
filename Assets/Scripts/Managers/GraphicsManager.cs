@@ -7,6 +7,8 @@ public class GraphicsManager : MonoBehaviour {
 
 	public Slider _HPComponent = null;
 	public Text   _tScoreComponent = null;
+	
+	public GameObject pauseMenu = null;
 	// Use this for initialization
 	void Start () {
 		instance = this;
@@ -23,4 +25,17 @@ public class GraphicsManager : MonoBehaviour {
 			_tScoreComponent.text = "Score: " + score;
 	}
 
+	public void setPause(bool pause){
+		if(pause){
+			pauseMenu.SetActive(true);
+			Time.timeScale = 0;
+			if(GameManager.State == GameManager.GameState.STARTED)
+				GameManager.State = GameManager.GameState.PAUSED;
+		}else{
+			pauseMenu.SetActive(false);
+			Time.timeScale = 1;
+			if(GameManager.State == GameManager.GameState.PAUSED)
+				GameManager.State = GameManager.GameState.STARTED;
+		}
+	}
 }

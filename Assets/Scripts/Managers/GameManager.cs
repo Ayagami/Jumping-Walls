@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		State = GameState.INTRO;
+		Time.timeScale = 1;
 
 		if (!instance)
 			instance = this;
@@ -65,8 +66,8 @@ public class GameManager : MonoBehaviour {
 		AddRoom ();
 
 		doPlayerInitializations();
-		
-		DataManager.enableAds(true);
+		if(!DataManager.ExistsDataOnDictionary(BuyableManager.BUYABLE_NOADS))
+			DataManager.enableAds(true);
 
     	#if UNITY_ANDROID
         	callPlugin();
@@ -93,7 +94,15 @@ public class GameManager : MonoBehaviour {
     }
 	
 	void OnApplicationPause(bool isPaused){
-		Debug.Log("Application Pause" + isPaused);
+		
+		if(isPaused && State == GameState.STARTED){
+			GraphicsManager.instance.setPause(true);
+		}
+		
+	}
+	
+	void OnDestroy(){
+		DataManager.enableAds(false);
 	}
 	
     void callPlugin(){
@@ -205,10 +214,11 @@ public class GameManager : MonoBehaviour {
 		if (State == GameState.PAUSED)
 			OnGamePaused ();
 	}
-
 	void OnGamePaused(){
-		Application.LoadLevel ("menu");	// For Now...
+		GraphicsManager.instance.setPause(true);
+		EventsSystem.sendSaveEvent();
 	}
+	
 	
 	public void AddScore(int plus){
 		Score += plus;

@@ -15,9 +15,9 @@ public class DataManager : MonoBehaviour {
     private BannerView bw = null;
     
     private GameObject g = null;
-    private GameObject shop = null;
     
     private BuyableManager m_bmManager = null;
+    private UnityAnalyticsIntegration m_UAI = null;
     
 	void Awake () {
 		if (instance == null){
@@ -25,6 +25,7 @@ public class DataManager : MonoBehaviour {
 		    DontDestroyOnLoad (this.gameObject);
             
             instance = this;
+            m_UAI = GetComponent<UnityAnalyticsIntegration>();
             
             m_bmManager = new BuyableManager();
             
@@ -121,6 +122,7 @@ public class DataManager : MonoBehaviour {
                     if(c){
                         addCoins(cuantity);
                         EventsSystem.makeNewPurchaseTrigger(getCoins());
+                        instance.m_UAI.sendBuyToAnalytics("100K_COINS", 0.99m);
                         return true;
                     }
                     
@@ -130,6 +132,7 @@ public class DataManager : MonoBehaviour {
        }else{
             addCoins(cuantity);
             EventsSystem.makeNewPurchaseTrigger(getCoins());
+            instance.m_UAI.sendBuyToAnalytics("100K_COINS", 0.99m);
             return true; 
        }
    }
@@ -170,6 +173,8 @@ public class DataManager : MonoBehaviour {
         if(instance.m_bmManager.buy(bID)){
            Debug.Log("Inside if");
            Buyable buy = instance.m_bmManager.getBuyable(bID);
+
+           instance.m_UAI.sendBuyToAnalytics(buy.getTag(), 1);
            instance.m_dDictionary[buy.getTag()] = 1;
            
            int cost  = buy.getCost();
