@@ -30,7 +30,8 @@ public class Player{
 
 		this.gameObject = _go;
 		this.transformation = this.gameObject.transform;
-		this.renderer = this.gameObject.GetComponent<Renderer> ();
+
+		this.renderer = this.gameObject.transform.GetChild(3).GetComponent<Renderer> ();
 		this.mat = this.renderer.material;
 		this.invulnTime = iTime;
 		this.m_fVulnTime = invulnTime;

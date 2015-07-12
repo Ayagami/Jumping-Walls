@@ -8,6 +8,9 @@ public class SpawnableItem : MonoBehaviour {
 	protected Player player = null; // Referencia al player.
 	
 	public Rigidbody2D rb2d = null;
+
+	private float rotFactor = 1;
+	public bool canRotate = false;
 	public virtual void OnEnable(){
 		timeAlive = 0;
 		if(rb2d){
@@ -15,6 +18,8 @@ public class SpawnableItem : MonoBehaviour {
 		}else{
 			rb2d = this.GetComponent<Rigidbody2D>();
 		}
+		if(canRotate)
+			rotFactor *= Mathf.Sin (Time.time);
 	}
 	
 	void Start(){
@@ -25,6 +30,9 @@ public class SpawnableItem : MonoBehaviour {
 		timeAlive += Time.deltaTime;
 		if (timeAlive >= timeThatCanBeAlive)
 			ObjectPool.instance.PoolObject (this.gameObject);
+
+		if(canRotate)
+			transform.Rotate (Vector3.forward * rotFactor);
 	}
 
 	public virtual void OnTriggerEnter2D(Collider2D collider){

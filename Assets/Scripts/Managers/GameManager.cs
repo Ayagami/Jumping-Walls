@@ -172,7 +172,7 @@ public class GameManager : MonoBehaviour {
 		}
 		else {
 			spawningPosition.x = go.transform.position.x;
-			spawningPosition.y = currentRoom.GetComponentInChildren<Renderer> ().bounds.max.y;
+			spawningPosition.y = currentRoom.GetComponentInChildren<Renderer> ().bounds.max.y - 0.1f;
 			go.transform.position = spawningPosition;
 			prevRoom = currentRoom;
 			prevTransform = prevRoom.transform;

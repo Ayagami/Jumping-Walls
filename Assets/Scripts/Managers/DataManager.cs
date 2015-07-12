@@ -92,29 +92,28 @@ public class DataManager : MonoBehaviour {
     }
     
     public static bool BuyCoins(int cuantity){
-       /* #if UNITY_ANDROID
-        addCoins(cuantity);
-        EventsSystem.makeNewPurchaseTrigger(getCoins());
-        return true; 
-        #else
-        if(Application.isMobilePlatform){
-            using (AndroidJavaClass ajo = new AndroidJavaClass("com.ligool.plugin.Main")) {
-                    bool c = ajo.CallStatic<bool>("buyCoins");
-                    Debug.Log("Boolean en Unity es " + c);
-                    if(c){
-                        addCoins(cuantity);
-                        EventsSystem.makeNewPurchaseTrigger(getCoins());
-                        return true;
-                    }
-                    
-                    Debug.Log("No pudiste comprar amigo.");
-                    return false;
-            }
-        }
         
-        return false;
-       #endif*/
+       bool response = true;
        
+       if(Application.isMobilePlatform){
+           #if UNITY_ANDROID
+               using (AndroidJavaClass ajo = new AndroidJavaClass("com.ligool.plugin.Main")) {
+                        response = ajo.CallStatic<bool>("buyCoins");  
+                }
+           #endif
+       }
+       
+       if(response){
+           addCoins(cuantity);
+           EventsSystem.makeNewPurchaseTrigger(getCoins());
+           instance.m_UAI.sendBuyToAnalytics("100K_COINS", 0.99m);
+           PoPUPInstance.instance.showPopUp("Buy Coins", "Hey, tu compra fue realizada con exito");
+       }else{
+            PoPUPInstance.instance.showPopUp("Buy Coins", "Hey, tu compra fallo, vuelve a intentarlo.");
+       }
+       
+       return response;
+       /*
        if(Application.isMobilePlatform){
            using (AndroidJavaClass ajo = new AndroidJavaClass("com.ligool.plugin.Main")) {
                     bool c = ajo.CallStatic<bool>("buyCoins");
@@ -123,18 +122,20 @@ public class DataManager : MonoBehaviour {
                         addCoins(cuantity);
                         EventsSystem.makeNewPurchaseTrigger(getCoins());
                         instance.m_UAI.sendBuyToAnalytics("100K_COINS", 0.99m);
+                        PoPUPInstance.instance.showPopUp("Buy Coins", "Hey, tu compra fue realizada con exito");
                         return true;
                     }
                     
-                    Debug.Log("No pudiste comprar amigo.");
+                    PoPUPInstance.instance.showPopUp("Buy Coins", "Hey, tu compra fallo, vuelve a intentarlo.");
                     return false;
             }
        }else{
             addCoins(cuantity);
             EventsSystem.makeNewPurchaseTrigger(getCoins());
             instance.m_UAI.sendBuyToAnalytics("100K_COINS", 0.99m);
+            PoPUPInstance.instance.showPopUp("Buy Coins", "Hey, tu compra fue realizada con exito");
             return true; 
-       }
+       }*/
    }
     public static void addCoins(int newCoins){
         if (instance.m_dDictionary.ContainsKey("Coins")){
@@ -171,7 +172,6 @@ public class DataManager : MonoBehaviour {
     
     public static bool buyItem(BuyableManager.BuyableId bID){
         if(instance.m_bmManager.buy(bID)){
-           Debug.Log("Inside if");
            Buyable buy = instance.m_bmManager.getBuyable(bID);
 
            instance.m_UAI.sendBuyToAnalytics(buy.getTag(), 1);
@@ -184,8 +184,6 @@ public class DataManager : MonoBehaviour {
            EventsSystem.makeNewPurchaseTrigger(newCoins);
            return true;
         }
-        
-        Debug.Log("outside if");
         return false;
     }
     
