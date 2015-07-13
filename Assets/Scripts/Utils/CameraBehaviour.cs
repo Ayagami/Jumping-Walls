@@ -4,8 +4,12 @@ using System.Collections;
 public class CameraBehaviour : MonoBehaviour {
 	[HideInInspector]
 	public Transform player = null;
-
 	private Transform my = null;
+
+	public Color ColorDay = Color.cyan;
+	public Color ColorLate = Color.gray;
+
+	public float speedLerp = 1f;
 
 	// Use this for initialization
 	void Start () {
@@ -15,7 +19,9 @@ public class CameraBehaviour : MonoBehaviour {
 		}*/
 		my = transform;
 	}
-	
+	void Update(){
+		Camera.main.backgroundColor = Color.Lerp(ColorDay, ColorLate, Mathf.PingPong(Time.time * speedLerp, 1.0f) );
+	}
 	// Update is called once per frame
 	void LateUpdate () {
 		if (player) {
