@@ -7,6 +7,9 @@ public class WallJump : MonoBehaviour {
 	public float jumpForce = 4f;
 	public float jumpPushForce = 10f;
 	public bool facingRight = true;
+
+	public AudioClip[] jumpClips;
+
 	bool doubleJump = true;
 	bool wallJumped = false;
 	bool wallJumping = false;
@@ -96,6 +99,8 @@ public class WallJump : MonoBehaviour {
 		if(needToApplyjump){
 			ApplyJump();
 			needToApplyjump = false;
+			int i = Random.Range(0, jumpClips.Length);
+			AudioSource.PlayClipAtPoint(jumpClips[i], transform.position, 0.1f );
 		}
 	}
 	

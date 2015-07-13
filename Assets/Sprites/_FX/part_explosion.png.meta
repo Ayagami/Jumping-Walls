@@ -1,17 +1,11 @@
 fileFormatVersion: 2
-guid: 27630b19ea18e40d79c4873519419827
-timeCreated: 1430773722
-licenseType: Pro
+guid: ec8e34c97ef2ee34395623fb7e4b0054
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: smb_tiles_0
-    21300002: smb_tiles_1
-    21300004: smb_tiles_2
-    21300006: smb_tiles_3
+  fileIDToRecycleName: {}
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     linearTexture: 0
     correctGamma: 0
     fadeOut: 0
@@ -31,10 +25,10 @@ TextureImporter:
   cubemapConvolutionExponent: 1.5
   seamlessCubemap: 0
   textureFormat: -1
-  maxTextureSize: 2048
+  maxTextureSize: 1024
   textureSettings:
-    filterMode: -1
-    aniso: 16
+    filterMode: 0
+    aniso: 1
     mipBias: -1
     wrapMode: 1
   nPOTScale: 0
@@ -47,53 +41,53 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: .5, y: .5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 160
   alphaIsTransparency: 1
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: smb_tiles_0
+    - name: part_explosion_0
       rect:
         serializedVersion: 2
-        x: 34
-        y: 136
-        width: 16
-        height: 16
+        x: 158
+        y: 1160
+        width: 734
+        height: 718
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: smb_tiles_1
+    - name: part_explosion_1
       rect:
         serializedVersion: 2
-        x: 85
-        y: 119
-        width: 16
-        height: 16
+        x: 1080
+        y: 1062
+        width: 904
+        height: 933
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: smb_tiles_2
+    - name: part_explosion_2
       rect:
         serializedVersion: 2
         x: 119
-        y: 119
-        width: 16
-        height: 16
+        y: 112
+        width: 801
+        height: 803
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: smb_tiles_3
+    - name: part_explosion_3
       rect:
         serializedVersion: 2
-        x: 68
-        y: 136
-        width: 16
-        height: 16
+        x: 1314
+        y: 245
+        width: 510
+        height: 499
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-  spritePackingTag: smb
+  spritePackingTag: 
   userData: 
   assetBundleName: 
   assetBundleVariant: 

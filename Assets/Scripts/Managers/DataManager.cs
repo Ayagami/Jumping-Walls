@@ -113,29 +113,6 @@ public class DataManager : MonoBehaviour {
        }
        
        return response;
-       /*
-       if(Application.isMobilePlatform){
-           using (AndroidJavaClass ajo = new AndroidJavaClass("com.ligool.plugin.Main")) {
-                    bool c = ajo.CallStatic<bool>("buyCoins");
-                    Debug.Log("Boolean en Unity es " + c);
-                    if(c){
-                        addCoins(cuantity);
-                        EventsSystem.makeNewPurchaseTrigger(getCoins());
-                        instance.m_UAI.sendBuyToAnalytics("100K_COINS", 0.99m);
-                        PoPUPInstance.instance.showPopUp("Buy Coins", "Hey, tu compra fue realizada con exito");
-                        return true;
-                    }
-                    
-                    PoPUPInstance.instance.showPopUp("Buy Coins", "Hey, tu compra fallo, vuelve a intentarlo.");
-                    return false;
-            }
-       }else{
-            addCoins(cuantity);
-            EventsSystem.makeNewPurchaseTrigger(getCoins());
-            instance.m_UAI.sendBuyToAnalytics("100K_COINS", 0.99m);
-            PoPUPInstance.instance.showPopUp("Buy Coins", "Hey, tu compra fue realizada con exito");
-            return true; 
-       }*/
    }
     public static void addCoins(int newCoins){
         if (instance.m_dDictionary.ContainsKey("Coins")){

@@ -4,6 +4,7 @@ using System.Collections;
 public class DestroyBlock : Actions {
 	// Use this for initialization
     private GameObject target = null;
+	public GameObject prefab = null;
 
 	public override void OnStart () {
         base.OnStart();
@@ -18,12 +19,11 @@ public class DestroyBlock : Actions {
 	}
 
     public override void Action(){
-        //Debug.Log("DestroyBlock bitch!!!");
         if (target) {
-            Debug.Log("Pooling gameObject bitch " + target.gameObject.name);
             ObjectPool.instance.PoolObject(target.gameObject);
             target = null;
         }
+		Instantiate(prefab, transform.position, Quaternion.identity);
     }
 
     void OnTriggerEnter2D(Collider2D obj){
