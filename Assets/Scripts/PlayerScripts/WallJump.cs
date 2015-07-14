@@ -100,7 +100,7 @@ public class WallJump : MonoBehaviour {
 			ApplyJump();
 			needToApplyjump = false;
 			int i = Random.Range(0, jumpClips.Length);
-			AudioSource.PlayClipAtPoint(jumpClips[i], transform.position, 0.1f );
+			AudioSource.PlayClipAtPoint(jumpClips[i], transform.position, 0.4f );
 		}
 	}
 	
