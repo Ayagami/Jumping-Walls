@@ -9,6 +9,10 @@ public class GraphicsManager : MonoBehaviour {
 	public Text   _tScoreComponent = null;
 	
 	public GameObject pauseMenu = null;
+
+	public GameObject finalResultMenu = null;
+	public Text 	  finalResultScore = null;
+	public GameObject HighScorePrefab = null;
 	// Use this for initialization
 	void Start () {
 		instance = this;
@@ -26,16 +30,27 @@ public class GraphicsManager : MonoBehaviour {
 	}
 
 	public void setPause(bool pause){
-		if(pause){
-			pauseMenu.SetActive(true);
-			Time.timeScale = 0;
-			if(GameManager.State == GameManager.GameState.STARTED)
-				GameManager.State = GameManager.GameState.PAUSED;
-		}else{
-			pauseMenu.SetActive(false);
-			Time.timeScale = 1;
-			if(GameManager.State == GameManager.GameState.PAUSED)
-				GameManager.State = GameManager.GameState.STARTED;
+		if (GameManager.State != GameManager.GameState.DONE) {
+			if (pause) {
+				pauseMenu.SetActive (true);
+				Time.timeScale = 0;
+				if (GameManager.State == GameManager.GameState.STARTED)
+					GameManager.State = GameManager.GameState.PAUSED;
+			} else {
+				pauseMenu.SetActive (false);
+				Time.timeScale = 1;
+				if (GameManager.State == GameManager.GameState.PAUSED)
+					GameManager.State = GameManager.GameState.STARTED;
+			}
 		}
+	}
+
+	public void showFinalResult(int currentScore, int highScore){
+		if (finalResultMenu == null || finalResultScore == null || HighScorePrefab == null)
+			return;
+
+		finalResultMenu.SetActive (true);
+		finalResultScore.text = currentScore.ToString();
+		HighScorePrefab.SetActive ( currentScore >= highScore );
 	}
 }

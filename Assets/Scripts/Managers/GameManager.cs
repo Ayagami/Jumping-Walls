@@ -132,33 +132,37 @@ public class GameManager : MonoBehaviour {
 	
 	void Update(){
 
-		if (player.transformation.position.y <= prevY) {
-			EventsSystem.sendGameStateChanged(GameState.DONE);
-		}
+		if (State != GameState.DONE) {
+
+			if (player.transformation.position.y <= prevY) {
+				EventsSystem.sendGameStateChanged (GameState.DONE);
+			}
 		
-		if(currentRoomTransform){	
-			Vector3 wPoint = currentRoomBounds.max;
-			viewportMaxVectorForRoom = Camera.main.WorldToViewportPoint(wPoint);
-			if(viewportMaxVectorForRoom.y < 1f){
-				checkLvlUp();
-				if(pendingLevel){
-					AddRoom();
-					pendingLevel = false;
+			if (currentRoomTransform) {	
+				Vector3 wPoint = currentRoomBounds.max;
+				viewportMaxVectorForRoom = Camera.main.WorldToViewportPoint (wPoint);
+				if (viewportMaxVectorForRoom.y < 1f) {
+					checkLvlUp ();
+					if (pendingLevel) {
+						AddRoom ();
+						pendingLevel = false;
+					}
+				}
+			
+			}
+
+			if (player != null) {
+				player.OnUpdate ();	// Llamo al update del player!
+				if (player.applyBlink) {	// Checkeo si tengo que hacer animaciones graficas para blinkeo.
+					player.applyBlink = false;
+					StartCoroutine (player.Blink ());
 				}
 			}
-			
-		}
 
-		if (player != null) {
-			player.OnUpdate ();	// Llamo al update del player!
-			if(player.applyBlink){	// Checkeo si tengo que hacer animaciones graficas para blinkeo.
-				player.applyBlink = false;
-				StartCoroutine(player.Blink());
+			if (Input.GetKeyDown (KeyCode.Escape)) {
+				EventsSystem.sendGameStateChanged (GameState.PAUSED);
 			}
-		}
 
-		if (Input.GetKeyDown (KeyCode.Escape)) {
-			EventsSystem.sendGameStateChanged(GameState.PAUSED);
 		}
 	}
 
@@ -205,11 +209,13 @@ public class GameManager : MonoBehaviour {
 
 	void OnGameChanged(GameState state){
 		State = state;
-        if (State == GameState.DONE)
-        {
+        if (State == GameState.DONE) {
+			int currentHighScore = DataManager.getHighScore();
             EventsSystem.sendSaveEvent();
          	DataManager.enableAds(false);
-		    Application.LoadLevel("menu");
+			GraphicsManager.instance.showFinalResult(Score, currentHighScore);
+			Time.timeScale = 0;
+		    //Application.LoadLevel("menu");
         }
 		if (State == GameState.PAUSED)
 			OnGamePaused ();

@@ -91,6 +91,13 @@ public class DataManager : MonoBehaviour {
             instance.m_dDictionary["HighScore"] = score;
     }
     
+	public static int getHighScore(){
+		if (!ExistsDataOnDictionary ("HighScore"))
+			return 0;
+
+		return System.Convert.ToInt32(instance.m_dDictionary ["HighScore"]);
+	}
+
     public static bool BuyCoins(int cuantity){
         
        bool response = true;
@@ -173,10 +180,11 @@ public class DataManager : MonoBehaviour {
     }
 
     public static bool ExistsDataOnDictionary(string key){
-        if(instance == null) return false;
+        if(instance == null) 
+			return false;
         if(instance.m_dDictionary == null)
             return false;
-            
+       
        return instance.m_dDictionary.ContainsKey(key);
     }
 

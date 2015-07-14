@@ -99,8 +99,6 @@ public class WallJump : MonoBehaviour {
 		if(needToApplyjump){
 			ApplyJump();
 			needToApplyjump = false;
-			int i = Random.Range(0, jumpClips.Length);
-			AudioSource.PlayClipAtPoint(jumpClips[i], transform.position, 0.4f );
 		}
 	}
 	
@@ -151,6 +149,11 @@ public class WallJump : MonoBehaviour {
 	}
 
 	void Walljump(){
+
+		
+		int i = Random.Range(0, jumpClips.Length);
+		AudioSource.PlayClipAtPoint(jumpClips[i], transform.position, 0.4f );
+
 		AuxVector.x = jumpPushForce * (facingRight ? -1:1);
 		AuxVector.y = jumpForce;
 		rigidbody2D.velocity = AuxVector;
