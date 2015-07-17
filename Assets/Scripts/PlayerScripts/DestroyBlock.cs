@@ -23,7 +23,9 @@ public class DestroyBlock : Actions {
             ObjectPool.instance.PoolObject(target.gameObject);
             target = null;
         }
-		Instantiate(prefab, transform.position, Quaternion.identity);
+		//	Instantiate(prefab, transform.position, Quaternion.identity);
+		GameObject go = ObjectPool.instance.GetObjectForType (prefab.name);
+		go.transform.position = transform.position;
     }
 
     void OnTriggerEnter2D(Collider2D obj){

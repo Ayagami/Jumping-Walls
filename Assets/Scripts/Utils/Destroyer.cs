@@ -31,20 +31,23 @@ public class Destroyer : MonoBehaviour
 	void DestroyChildGameObject ()
 	{
 		// Destroy this child gameobject, this can be called from an Animation Event.
-		if(transform.Find(namedChild).gameObject != null)
-			Destroy (transform.Find(namedChild).gameObject);
+		if (transform.Find (namedChild).gameObject != null)
+			//Destroy (transform.Find(namedChild).gameObject);
+			ObjectPool.instance.PoolObject (gameObject);
 	}
 
 	void DisableChildGameObject ()
 	{
 		// Destroy this child gameobject, this can be called from an Animation Event.
 		if(transform.Find(namedChild).gameObject.activeSelf == true)
-			transform.Find(namedChild).gameObject.SetActive(false);
+			//transform.Find(namedChild).gameObject.SetActive(false);
+			ObjectPool.instance.PoolObject (gameObject);
 	}
 
 	void DestroyGameObject ()
 	{
 		// Destroy this gameobject, this can be called from an Animation Event.
-		Destroy (gameObject);
+		//Destroy (gameObject);
+		ObjectPool.instance.PoolObject (gameObject);
 	}
 }
