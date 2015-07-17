@@ -152,7 +152,9 @@ public class WallJump : MonoBehaviour {
 
 		
 		int i = Random.Range(0, jumpClips.Length);
-		AudioSource.PlayClipAtPoint(jumpClips[i], transform.position, 0.4f );
+		//AudioSource.PlayClipAtPoint(jumpClips[i], transform.position, 0.4f );
+		GameManager.instance.m_dasAudio.clip = jumpClips [i];
+		GameManager.instance.m_dasAudio.Play ();
 
 		AuxVector.x = jumpPushForce * (facingRight ? -1:1);
 		AuxVector.y = jumpForce;

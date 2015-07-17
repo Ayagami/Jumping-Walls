@@ -42,6 +42,9 @@ public class GameManager : MonoBehaviour {
 	public float currentY = -1;    
 
 	private int Score = 0;
+
+	[Header("Referencias externas")]
+	public AudioSource m_dasAudio = null;
 	// Use this for initialization
 	void Start () {
 		State = GameState.INTRO;
